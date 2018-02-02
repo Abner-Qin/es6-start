@@ -1,0 +1,43 @@
+现在的Chrome浏览器已经支持ES6了，但是有些低版本的浏览器还是不支持ES6的语法，这就需要把ES6的语法自动的转变成ES5的语法。Webpack是有自动编译转换能力的，除了Webpack自动编译，还可以用Babel来完成。这次就使用Babel把ES6编译成ES5。
+建立工程目录：
+建立两个文件夹：src（书写ES6代码的文件夹，写的js程序都放在这里。）和dist（利用Babel编译成的ES5代码的文件夹，在HTML页面需要引入的时这里的js文件。）
+编写index.html：
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="./dist/index.js"></script>
+    </head>
+    <body>
+        Hello ECMA Script 6
+    </body>
+</html>
+编写src/index.js
+let a=1;
+console.log(a);
+初始化项目	
+npm init -y
+-y代表全部默认同意，就不用一次次按回车了。命令执行完成后，会在项目根目录下生产package.json文件。
+全局安装Babel-cli
+npm install -g babel-cli
+本地安装babel-preset-es2015 和 babel-cli（安装转换包）
+npm install --save-dev babel-preset-es2015 babel-cli
+新建.babelrc（根目录下）
+{
+    "presets":[
+        "es2015"
+    ],
+    "plugins":[]
+}
+babel src/index.js -o dist/index.js（dist目录下自动生成index.js文件并将ES6成功转化为ES5的语法。）
+简化转化命令：
+修改package.json文件把下面这句
+ "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },改为
+ "scripts": {
+    "build": "babel src/index.js -o dist/index.js"
+  },
+即可直接输入npm run build进行转换
